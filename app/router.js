@@ -1,8 +1,8 @@
 var express = require('express');
-
 var app = express();
 
-// Setup routes and controllers
-app.use(require('./scraper/router'));
+var scrape = require('./url/url-scrape');
+
+app.use('/scrape', scrape);
 
 module.exports = app;
