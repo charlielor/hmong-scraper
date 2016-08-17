@@ -2,11 +2,14 @@ var express = require('express');
 var mongoose = require('mongoose');
 var database = require('./app/config/database');
 
+var site = require('./app/routes');
+
 var app = express();
 
 mongoose.connect(database.url);
 
 app.use(require('./app/config/express'));
+app.use('/', site);
 
 app.listen('8081');
 

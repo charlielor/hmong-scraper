@@ -1,8 +1,6 @@
 var express = require('express');
 var app = express();
 
-var scrape = require('./url/url-scrape');
-
-app.use('/scrape', scrape);
+app.use('/', require('./site/routes'));
 
 module.exports = app;
