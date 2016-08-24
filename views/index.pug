@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  div(class="container")
+    div(class="jumbotron")
+      h1(class="text-center") Hmong site scraper!
+    div(class='row')
+      form(name="urlForm", action="/scrape", method="post" class="form-horizontal")
+        div(class='form-group')
+          label(for="link" class="col-md-2 control-label") Link:
+          div(class="col-md-10")
+            input(id="link" class="form-control" type="text", name="link")
+        div(class='form-group')
+          label(for="class" class="col-md-2 control-label") .class (to scrape):
+          div(class="col-md-10")
+            input(id="class" class="form-control" type="text", name="class")
+        button(type='submit' class='btn btn-default col-md-1 col-md-offset-11') Submit
+    div(class='row')
+      div(class='col-md-12')

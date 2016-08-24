@@ -1,10 +1,9 @@
 {
   "name": "hmong-scraper",
-  "version": "1.0.0",
-  "description": "A web scraper for Hmong websites to collect Hmong words for spellchecker",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "A web scraper for Hmong sites to collect Hmong words",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodejs ./bin/www"
   },
   "author": "Charlie Lor",
   "license": "MIT",
@@ -13,11 +12,16 @@
     "url": "https://github.com/charlielor/hmong-scraper.git"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "cheerio": "^0.20.0",
+    "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "mongoose": "^4.5.9",
+    "morgan": "^1.7.0",
+    "path": "^0.12.7",
     "pug": "^2.0.0-beta5",
     "request": "^2.74.0",
+    "serve-favicon": "^2.0.0-alpha",
     "underscore": "^1.8.3"
   }
 }
