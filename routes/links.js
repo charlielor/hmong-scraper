@@ -5,57 +5,61 @@ var _ = require('underscore');
 var mongoose = require('mongoose');
 var logger = require('morgan');
 var Link = require('./../models/link/link');
-// var Word = require('./../models/word/word');
+var Word = require('./../models/word/word');
 
 var router = express.Router();
 
-
-router.get('/links', function(req, res) {
+router.get('/', function(req, res) {
     Link.find({}, function(err, links) {
         if (err) {
             res.send(err);
         }
 
         res.json(links);
-    })
+    });
 });
 
-router.post('/links', function(req, res) {
+router.post('/', function(req, res) {
     // URL to scrape
-    var url = req.param.link;
-    var _class = req.param['_class'];
+    var url = req.body.link;
+    var _class = req.body['_class'];
 
-    logger.log(url + ' ' + _class);
+    var re = new RegExp('\b([flsvyz]|[cdkpqrt]h?|[hm]l?|(pl)h?|(hm)l?|(hn)y?|[nx]y?|(nc)h?|(nk)h?|(np)[hl]?|(nplh)|(nq)h?|(nr)h?|(nt)[hsx]?|(ntsh)|(ntxh)|(t[sx]?h?))?(a[iuw]?|ee?|ia?|oo?|ua?|w){1}[bdgjmsv]?\b');
 
-    // Create an Object of words and count -- An object so we can JSON.stringify and save it
-    var map = {};
+    // Get the page and start scraping
+    request(url, function(err, res, html) {
+        // If err the send err
+        if (err) {
+            res.send(err);
+        }
 
-    // Get the page and start to scrape
-    // request(url, function(err, res, html) {
-    //     // If err the send err
-    //     if (err) {
-    //         res.send(err);
-    //     }
-    //
-    //     var $ = cheerio.load(html);
-    //
-    //     // On this form, each children in each post is the message (.inner)
-    //     $('.post').filter(function() {
-    //         var post = $(this);
-    //
-    //         $(post).find('br').replaceWith(' ');
-    //
-    //         _.each(post.children().first().text().split(' '), function(val) {
-    //             if (map.hasOwnProperty(val)) {
-    //                 map[val] = map[val] + 1;
-    //             } else {
-    //                 map[val] = 1;
-    //             }
-    //
-    //         });
-    //     });
-    //
-    // });
+        var $ = cheerio.load(html);
+
+        // On this form, each children in each post is the message (_class)
+        $('.' + _class).filter(function() {
+            var message = $(this);
+
+            console.log(message);
+
+            $(message).find('br').replaceWith(' ');
+
+            _.each(message.children().first().text().split(' '), function(val) {
+                if (re.test(val.toLowerCase())) {
+                    console.log(val);
+                    // Word.find({word: val}, function(err, result) {
+                    //     if (err) {
+                    //         res.send(err);
+                    //     }
+                    //
+                    //
+                    //     result.addCount();
+                    // });
+                }
+
+            });
+        });
+
+    });
 
     res.render('index', {
         numOfLinks: 10,

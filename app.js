@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var db = require('./config/db');
 
-var routes = require('./routes/index');
+var main = require('./routes/index');
 var links = require('./routes/links');
 
 var app = express();
@@ -22,11 +22,11 @@ app.set('view engine', 'pug');
 // app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/', main);
 app.use('/links', links);
 
 /// catch 404 and forwarding to error handler

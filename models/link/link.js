@@ -15,7 +15,6 @@ var linkSchema = new Schema({
 
 linkSchema.pre('save', function(next) {
     this.dateParsed = new Date();
-
     next();
 });
 
